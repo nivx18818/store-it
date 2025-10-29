@@ -64,12 +64,7 @@ export const createAccount = async ({
         email,
         avatar: avatarPlaceholderUrl,
         accountId,
-      },
-      permissions: [
-        Permission.create(Role.user(accountId)),
-        Permission.update(Role.user(accountId)),
-        Permission.read(Role.any()),
-      ],
+      }
     });
   }
 
