@@ -7,6 +7,8 @@ import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { avatarPlaceholderUrl } from "@/constants";
 import { redirect } from "next/navigation";
+import fs from "fs";
+import path from "path";
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -34,6 +36,9 @@ export const sendEmailOTP = async ({ email }: { email: string }) => {
       email,
     });
 
+    const otpPath = path.resolve(process.cwd(), "cypress", "fixtures", "otp.json");
+    const otpData = { otp: session.secret, email };
+    fs.writeFileSync(otpPath, JSON.stringify(otpData, null, 2));
     return session.userId;
   } catch (error) {
     handleError(error, "Failed to send email OTP");
@@ -65,11 +70,6 @@ export const createAccount = async ({
         avatar: avatarPlaceholderUrl,
         accountId,
       },
-      permissions: [
-        Permission.create(Role.user(accountId)),
-        Permission.update(Role.user(accountId)),
-        Permission.read(Role.any()),
-      ],
     });
   }
 
