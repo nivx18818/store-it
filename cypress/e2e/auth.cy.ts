@@ -62,5 +62,14 @@ describe('Dashboard', () => {
     cy.wait(3000);
     cy.url().should('eq', 'http://localhost:3000/sign-in');
   });
+
+  it('Invalid email format', () => {
+    cy.visit('/sign-in');
+    cy.get('input[placeholder="Enter your email"]').type('invalid-email-format');
+    cy.get('button[type="submit"]').click();
+
+    cy.contains('p.shad-form-message', 'Invalid email address', { timeout: 10000 })
+      .should('be.visible');
+  });
 });
 
