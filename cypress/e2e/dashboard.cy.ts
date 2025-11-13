@@ -2,7 +2,7 @@ describe('Dashboard', () => {
   describe('When logged in', () => {
     beforeEach(() => {
       cy.visit('/sign-in');
-      cy.get('input[placeholder="Enter your email"]').type('tuongsiunhan1@gmail.com');
+      cy.get('input[placeholder="Enter your email"]').type('test@example.com');
       cy.get('button[type="submit"]').click();
 
       cy.wait(3000);
@@ -31,7 +31,6 @@ describe('Dashboard', () => {
     });
 
     it('Summary cards', () => {
-      //Upload files
       const imageFile = 'vd1.png';
       const docFile = 'la2.pdf';
 
@@ -48,14 +47,11 @@ describe('Dashboard', () => {
       });
 
       cy.get('.dashboard-summary-card').should('have.length', 4);
-
-      // Check documents card
       cy.get('.dashboard-summary-card').eq(0).find('.summary-type-title').should('have.text', 'Documents');
       cy.get('.dashboard-summary-card').eq(0).find('.summary-type-size').invoke('text').should((text) => {
         expect(text.trim()).not.to.eq('0 Bytes');
       });
 
-      // Check images card
       cy.get('.dashboard-summary-card').eq(1).find('.summary-type-title').should('have.text', 'Images');
       cy.get('.dashboard-summary-card').eq(1).find('.summary-type-size').invoke('text').should((text) => {
         expect(text.trim()).not.to.eq('0 Bytes');
